@@ -3,12 +3,13 @@
 
 using namespace std;
 
-class Graph {
+class Graph
+{
   int numVertices;
-  list<int>* adjLists;
-  bool* visited;
+  list<int> *adjLists;
+  bool *visited;
 
-   public:
+public:
   Graph(int vertices);
   void addEdge(int src, int dest);
   void BFS(int startVertex);
@@ -16,19 +17,22 @@ class Graph {
 
 // Create a graph with given vertices,
 // and maintain an adjacency list
-Graph::Graph(int vertices) {
+Graph::Graph(int vertices)
+{
   numVertices = vertices;
   adjLists = new list<int>[vertices];
 }
 
 // Add edges to the graph
-void Graph::addEdge(int src, int dest) {
+void Graph::addEdge(int src, int dest)
+{
   adjLists[src].push_back(dest);
-  adjLists[dest].push_back(src);
+  // adjLists[dest].push_back(src);
 }
 
 // BFS algorithm
-void Graph::BFS(int startVertex) {
+void Graph::BFS(int startVertex)
+{
   visited = new bool[numVertices];
   for (int i = 0; i < numVertices; i++)
     visited[i] = false;
@@ -40,14 +44,17 @@ void Graph::BFS(int startVertex) {
 
   list<int>::iterator i;
 
-  while (!queue.empty()) {
+  while (!queue.empty())
+  {
     int currVertex = queue.front();
     cout << "(V" << currVertex << ")";
     queue.pop_front();
 
-    for (i = adjLists[currVertex].begin(); i != adjLists[currVertex].end(); ++i) {
+    for (i = adjLists[currVertex].begin(); i != adjLists[currVertex].end(); ++i)
+    {
       int adjVertex = *i;
-      if (!visited[adjVertex]) {
+      if (!visited[adjVertex])
+      {
         visited[adjVertex] = true;
         queue.push_back(adjVertex);
       }
@@ -55,7 +62,8 @@ void Graph::BFS(int startVertex) {
   }
 }
 
-int main() {
+int main()
+{
   Graph coba(5);
   coba.addEdge(4, 2);
   coba.addEdge(4, 3);

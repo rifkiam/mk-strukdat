@@ -1,9 +1,7 @@
-// #include <iostream>
 #include <bits/stdc++.h>
 using namespace std;
 
-int arr[20001];
-int it = 0;
+int found = 0;
 
 struct AVLNode
 {
@@ -207,17 +205,38 @@ private:
         return node;
     }
 
-    void _inorder(AVLNode *node)
+
+    void _inorder(AVLNode *node, int key)
     {
         if (node)
         {
-            _inorder(node->left);
-            printf("%d ", node->data);
-            _inorder(node->right);
+            if (node->data == key)
+            {
+                found = 1;
+                // cout << "value found";    
+                return;
+            }
+            else if (node->data != key)
+            {
+                _inorder(node->left, key);
+                _inorder(node->right, key);
+            }
         }
     }
 
 public:
+
+    void checkingakhir() 
+    {
+        if (found == 1)
+        {
+            cout << "value found";
+        }
+        else
+        {
+            cout << "value not found";
+        }  
+    }
     void init()
     {
         _root = NULL;
@@ -259,69 +278,30 @@ public:
         }
     }
 
-    void inorder()
+    void inorder(int key)
     {
-        this->_inorder(_root);
+        this->_inorder(_root, key);
     }
 };
 
-void operation(int order, int val, AVL *tree)
-{
-    int n = sizeof(arr) / sizeof(arr[0]); // length
-    // cout << n;
-    cout << it;
-    if (order == 1)
-    {
-        arr[it] = val;
-        cout << arr[it] << endl;
-        sort(arr, arr + n);
-        it++;
-        return;
-    }
-    else if (order == 2)
-    {
-        // for (int i = 0; i < it; i++)
-        // {
-        //     cout << arr[i];
-        //     if (arr[i] == val)
-        //     {
-        //         cout << i << endl;
-        //         return;
-        //     }
-        //     else
-        //     {
-        //         cout << "Data tidak ada" << endl;
-        //         return;
-        //     }
-        // }
-        // cout << arr[it];
-    }
-};
-
-int main()
-{
+int main() {
     AVL tree;
     tree.init();
 
     int p;
+    int key;
     cin >> p;
-
 
     for (int i = 0; i < p; i++)
     {
-        int order;
-        int val;
-        cin >> order, cin >> val;
-        operation(order, val, &tree);
+        int dat = 0;
+        cin >> dat;
+        tree.insert(dat);
     }
-    // for (int i = 0; i < (sizeof(arr) / sizeof(int)); i++)
-    // {
-    //     if (arr[i] == NULL || arr[i] == 0)
-    //     {
-    //         continue;
-    //     }
-    //     cout << arr[i];
-    // }
+
+    cin >> key;
+    tree.inorder(key);
+    tree.checkingakhir();
 
     return 0;
 }

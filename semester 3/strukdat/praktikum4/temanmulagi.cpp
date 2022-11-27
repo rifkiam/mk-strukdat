@@ -1,9 +1,9 @@
-// #include <iostream>
 #include <bits/stdc++.h>
 using namespace std;
 
-int arr[20001];
-int it = 0;
+// int found = 0;
+int column = 0;
+int columnValues[10001];
 
 struct AVLNode
 {
@@ -11,6 +11,8 @@ struct AVLNode
     AVLNode *left, *right;
     int height;
 };
+
+AVLNode *leftmostptr;
 
 struct AVL
 {
@@ -207,17 +209,96 @@ private:
         return node;
     }
 
-    void _inorder(AVLNode *node)
+    void _inorderRight(AVLNode *node, int it)
     {
-        if (node)
+        if (columnValues[it] == 0)
         {
-            _inorder(node->left);
-            printf("%d ", node->data);
-            _inorder(node->right);
+            columnValues[it] += node->data;
+        }
+        it++;
+
+        if (node->left != NULL)
+        {
+            _inorderLeft(node, it);
+        }
+        else
+        {
+            _inorderRight(node->right, it);
         }
     }
 
+    void _inorderLeft(AVLNode *node, int it)
+    {
+        if (columnValues[it] == 0)
+        {
+            columnValues[it] += node->data;
+        }
+        it--;
+
+        if (node->right != NULL)
+        {
+            _inorderRight(node, it);
+        }
+        else
+        {
+            _inorderRight(node->right, it);
+        }
+    }
+
+    void _inorder(AVLNode *node)
+    {
+        int it = 0;
+        if (node)
+        {   
+            _inorderLeft(node, it);
+            // cout << node->data;
+            
+            _inorderRight(node, it);
+        }
+    }
+
+    void checkChild(AVLNode *node) 
+    {
+        AVLNode *rightpointer = node;
+        AVLNode *leftpointer = node;
+        // AVLNode *leftmostptr;
+        if (leftpointer->left != NULL)
+        {
+            column++;
+            checkChild(leftpointer->left);
+        }
+        else
+        {
+            return;
+        }
+
+        if (node->right != NULL)
+        {
+            column++;
+            checkChild(rightpointer->right);
+        }
+        else
+        {
+            return;
+        }
+
+        leftmostptr = leftpointer;
+        // int columnValues[column];
+    
+        // cout << leftmostptr->data;
+        // cout << leftmostptr->right->data;
+    }
+
 public:
+
+    void treeChecking()
+    {
+        if (_root->left != NULL && _root->right != NULL)
+        {
+            checkChild(_root);
+        }
+    }
+
     void init()
     {
         _root = NULL;
@@ -263,65 +344,53 @@ public:
     {
         this->_inorder(_root);
     }
-};
 
-void operation(int order, int val, AVL *tree)
-{
-    int n = sizeof(arr) / sizeof(arr[0]); // length
-    // cout << n;
-    cout << it;
-    if (order == 1)
+    void leftInorder()
     {
-        arr[it] = val;
-        cout << arr[it] << endl;
-        sort(arr, arr + n);
-        it++;
-        return;
-    }
-    else if (order == 2)
-    {
-        // for (int i = 0; i < it; i++)
-        // {
-        //     cout << arr[i];
-        //     if (arr[i] == val)
-        //     {
-        //         cout << i << endl;
-        //         return;
-        //     }
-        //     else
-        //     {
-        //         cout << "Data tidak ada" << endl;
-        //         return;
-        //     }
-        // }
-        // cout << arr[it];
+        this->_inorder(leftmostptr);
     }
 };
 
-int main()
-{
+int main() {
+    int a = sizeof(columnValues) / sizeof(columnValues[0]);
+
     AVL tree;
     tree.init();
 
     int p;
+    int key;
     cin >> p;
-
 
     for (int i = 0; i < p; i++)
     {
-        int order;
-        int val;
-        cin >> order, cin >> val;
-        operation(order, val, &tree);
+        string command;
+        int dat = 0;
+        cin >> command;
+        if (command == "insert")
+        {
+            cin >> dat;
+            tree.insert(dat);
+        }
+        else
+        {
+            tree.treeChecking();
+        }
     }
-    // for (int i = 0; i < (sizeof(arr) / sizeof(int)); i++)
-    // {
-    //     if (arr[i] == NULL || arr[i] == 0)
-    //     {
-    //         continue;
-    //     }
-    //     cout << arr[i];
-    // }
 
+    // cin >> key;
+    tree.leftInorder();
+    cout << column;
+
+    for (int i = 0; i < a; i++)
+    {
+        if (columnValues[i] == NULL || columnValues[i] == 0)
+        {
+            break;
+        }
+        else
+        {
+            cout << columnValues[i];
+        }
+    }
     return 0;
 }
