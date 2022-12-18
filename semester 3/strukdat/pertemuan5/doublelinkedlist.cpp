@@ -187,20 +187,21 @@ int main()
     insertAt(&list, 1, 6); // add di tengah
     pushBack(&list, 2); // add di belakang
 
-    DListNode *currNode = list._head;
-    while (currNode != NULL)
+    DListNode *currNodeForward = list._head;
+    while (currNodeForward != NULL)
     {
-        cout << currNode->data << endl;
-        currNode = currNode->next;
+        cout << currNodeForward->data << endl;
+        currNodeForward = currNodeForward->next;
     }
-    // pushFront(&list, 8);
-    // pushFront(&list, 9);
-    // pushFront(&list, 10);
 
-    // while (!dlist_isEmpty(&list))
-    // {
-    //     cout << dlist_front(&list) << endl;
-    //     popFront(&list);
-    // }
+    cout << endl;
+
+    DListNode *currNodeBackward = list._tail;
+    while (currNodeBackward != NULL)
+    {
+        cout << currNodeBackward->data << endl;
+        currNodeBackward = currNodeBackward->prev;
+    }
+    
     return 0;
 }

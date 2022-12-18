@@ -154,9 +154,9 @@ void dlist_insertAt(CircularDoubleList *list, unsigned index, int value) {
 void printls(CircularDoubleList* list){
     DListNode* temp = list->_head;
     int i = 0;
-    while (i<list->_size)
+    while (i < list->_size)
     {
-        i++;
+        // i++;
         cout << temp->data << " ";
         if(temp->next == NULL){
             break; 
@@ -169,7 +169,7 @@ void printls(CircularDoubleList* list){
 void printls_reverse(CircularDoubleList* list){
     DListNode* temp = list->_tail;
     int i = 0;
-    while (i<list->_size)
+    while (i < list->_size)
     {
         i++;
         cout << temp->data << " ";
@@ -193,5 +193,5 @@ int main() {
     dlist_pushFront(&list, 1);
     dlist_insertAt(&list, 3, 4);
     printls(&list);
-    printls_reverse(&list);
+    // printls_reverse(&list);
 }
